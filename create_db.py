@@ -8,8 +8,12 @@ import os
 import csv
 import math
 import sqlite3
+import common
 
-os.remove( 'results.db' )
+try:
+  os.remove( 'results.db' )
+except:
+  pass
 conn = sqlite3.connect('results.db')
 c = conn.cursor()
 
@@ -64,6 +68,7 @@ def main():
       female_race = [] 
       result_reader = csv.reader( results_file , delimiter = ',' , quotechar = '"' )
       for result in result_reader:
+        result = [unicode(cell, 'utf-8') for cell in result]
         (name,age,gender,time) = [ result[a].strip().upper() for a in (1,2,3,-1) ]
         gender = gender.upper()
         if gender == 'MALE':
@@ -93,7 +98,7 @@ def compute_runner_score():
   for row in rows:
     ids.append( row[ 0 ] )
   for id in ids:
-    r2 = c.execute( "select race.name,max(points) from results join race on race = race.id where athlete = ? group by race.name order by max(points) desc limit 5" , (id, ) )
+    r2 = c.execute( common.athlete_best_races , (id, ) )
     score = 0
     for r in r2:
       score += r[ 1 ]
