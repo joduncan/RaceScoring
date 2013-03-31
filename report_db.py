@@ -4,6 +4,27 @@ import sqlite3
 import common
 
 
+print """<head>
+<link rel="stylesheet" href="http://jquerytools.org/media/css/tabs.css"
+      type="text/css" media="screen" />
+<link rel="stylesheet" href="http://jquerytools.org/media/css/tabs-panes.css"
+      type="text/css" media="screen" />
+<script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
+</head>
+<body>
+
+<div class="box" >
+<!-- the tabs -->
+<ul class="tabs">
+        <li><a href="#">Women</a></li>
+        <li><a href="#">Men</a></li>
+</ul>
+
+<!-- tab "panes" -->
+<div class="panes">
+
+"""
+
 conn = sqlite3.connect('results.db')
 c = conn.cursor()
 
@@ -48,8 +69,23 @@ age_ranges = [ None , (5,9) , (10,19) , (20,29) , (30,39) , (40,49) , (50,59) , 
 sexes = [ 'F' , 'M' ] 
 
 for sex in sexes:
+  print "<div>"
   limit = 250
 
   for age_range in age_ranges:
     sub_report( sex , age_range , limit )
     limit = 10 
+  print "</div>"
+
+print """</div>
+
+<script>
+// perform JavaScript after the document is scriptable.
+$(function() {
+    // setup ul.tabs to work as tabs for each div directly under div.panes
+    $("ul.tabs").tabs("div.panes > div");
+});
+
+</script>
+"""
+
