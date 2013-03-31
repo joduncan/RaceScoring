@@ -22,9 +22,16 @@ c.execute( "create table athlete ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name 
 c.execute( "create table results  ( id INTEGER PRIMARY KEY AUTOINCREMENT  , race integer , athlete integer , rank integer , points float )" )
 
 def find_racer( name , age , gender ):
-  c.execute( "select id from athlete where name=? and sex=?" , ( name , gender ) )
+  try:
+    age = int( age )
+    c.execute( "select id , age from athlete where name=? and sex=? and ( ( age >= ? ) and ( age <= ? ) or age is null )" , 
+               ( name , gender , age - 1 , age + 1 ) ) 
+  except:
+    c.execute( "select id , age from athlete where name=? and sex=?" , ( name , gender  ) )
   try:
     row = c.fetchone()
+    if isinstance( age , int ) and row[ 1 ] == None:
+      c.execute( "update athlete set age = ? where id = ?" , ( age , row[ 0 ] ) )
     return row[ 0 ]
   except:
     return None
