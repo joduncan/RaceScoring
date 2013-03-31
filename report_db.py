@@ -3,27 +3,30 @@
 import sqlite3
 import common
 
+def print_header():
+  print """<head>
+           <link rel="stylesheet" href="http://jquerytools.org/media/css/tabs.css"
+                 type="text/css" media="screen" />
+           <link rel="stylesheet" href="http://jquerytools.org/media/css/tabs-panes.css"
+                 type="text/css" media="screen" />
+           <script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
+           </head>
+           <body>"""
 
-print """<head>
-<link rel="stylesheet" href="http://jquerytools.org/media/css/tabs.css"
-      type="text/css" media="screen" />
-<link rel="stylesheet" href="http://jquerytools.org/media/css/tabs-panes.css"
-      type="text/css" media="screen" />
-<script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
-</head>
-<body>
 
-<div class="box" >
-<!-- the tabs -->
-<ul class="tabs">
-        <li><a href="#">Women</a></li>
-        <li><a href="#">Men</a></li>
-</ul>
 
-<!-- tab "panes" -->
-<div class="panes">
+def tab_index( content_titles ):
+  print """<div class="box" >
+           <!-- the tabs -->
+           <ul class="tabs">"""
+  for c in content_titles:
+    print """<li><a href="#">%s</a></li>""" % c 
+  print """</ul>"""
 
-"""
+def start_content():
+  print """<!-- tab "panes" -->
+           <div class="panes">"""
+
 
 conn = sqlite3.connect('results.db')
 c = conn.cursor()
@@ -31,10 +34,6 @@ c = conn.cursor()
 
 def sub_report( sex , range , limit ):
   print "<br><br>"
-  if sex == 'M':
-    print "Men"
-  else:
-    print "Women"
 
   if range == None: 
     rows = c.execute( 'select id,name,age,points from athlete where sex=? order by points desc limit ?' , ( sex , limit ) )
@@ -67,6 +66,10 @@ def sub_report( sex , range , limit ):
 age_ranges = [ None , (5,9) , (10,19) , (20,29) , (30,39) , (40,49) , (50,59) , (60,69) , (70,79) , (80,89) , (90,98) ]
 
 sexes = [ 'F' , 'M' ] 
+
+print_header()
+tab_index( [ "Women" , "Men" ] )
+start_content()
 
 for sex in sexes:
   print "<div>"
