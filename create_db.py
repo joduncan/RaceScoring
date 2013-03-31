@@ -19,7 +19,9 @@ c = conn.cursor()
 
 c.execute( "create table race    ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string )" )
 c.execute( "create table athlete ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , sex string , age integer , points float )" )
+c.execute( "create index athname on athlete(name)" ) # cut creation time from 50.8 to 30.8
 c.execute( "create table results  ( id INTEGER PRIMARY KEY AUTOINCREMENT  , race integer , athlete integer , rank integer , points float )" )
+c.execute( "create index resath on results(athlete)" ) #cut creation time from 30.8 to 1.26 (!!) 
 
 def find_racer( name , age , gender ):
   try:
