@@ -2,7 +2,7 @@
 
 import sqlite3
 import common
-
+import sys
 
 print """<head>
 <link rel="stylesheet" href="http://jquerytools.org/media/css/tabs.css"
@@ -28,7 +28,6 @@ print """<head>
 conn = sqlite3.connect('results.db')
 c = conn.cursor()
 
-
 def sub_report( sex , range , limit ):
   print "<br><br>"
   if sex == 'M':
@@ -52,8 +51,9 @@ def sub_report( sex , range , limit ):
     row[ 3 ] = "%.2f" % row[ 3 ]
     id = row[ 0 ]
     row = row[ 1: ]
-    row = [ str(i) for i in row ] 
-    row[ 0 ] = "#%d %s" % ( rank , row[ 0 ] )
+    #print >>sys.err , row 
+    #row = [ i.encode( 'ascii' ) for i in row ] 
+    row[ 0 ] = "#%d %s" % ( rank , row[ 0 ].encode( 'ascii' , 'replace' ) )
     res = c.execute( common.athlete_best_races , (id,) )
     for r in res:
       row.append( "%s(%d)<br>%.2f" % ( r[ 0 ] , r[ 2 ] ,  r[ 1 ] ) )
