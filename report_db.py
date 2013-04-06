@@ -20,8 +20,9 @@ def tab_index( content_titles ):
            <!-- the tabs -->
            <ul class="tabs">"""
   for c in content_titles:
-    print """<li><a href="#">%s</a></li>""" % c 
+    print """<li><a href="%s">%s</a></li>""" % ( c , c )  
   print """</ul>"""
+  print "</div>"
 
 def start_content():
   print """<!-- tab "panes" -->
@@ -65,20 +66,35 @@ def sub_report( sex , range , limit ):
 
 age_ranges = [ None , (5,9) , (10,19) , (20,29) , (30,39) , (40,49) , (50,59) , (60,69) , (70,79) , (80,89) , (90,98) ]
 
-sexes = [ 'F' , 'M' ] 
+age_strings = []
+for a in age_ranges:
+  ager = "All"
+  if a <> None:
+    ager = "Age %d to %d" % a 
+  age_strings.append( ager )
+
+sexes = [ [ 'F' , 'Women' ] , [ 'M' , 'Men' ] ] 
+
+titles = []
+for sex in sexes:
+  for astr in age_strings:
+    titles.append( sex[ 1 ] + ' ' + astr )
 
 print_header()
-tab_index( [ "Women" , "Men" ] )
+tab_index( titles )
 start_content()
 
+print "<hr>"
 for sex in sexes:
-  print "<div>"
   limit = 250
 
+  #tab_index( age_strings )
   for age_range in age_ranges:
-    sub_report( sex , age_range , limit )
+    print """<div>"""
+    sub_report( sex[ 0 ]  , age_range , limit )
+    print """</div>"""
     limit = 10 
-  print "</div>"
+
 
 print """</div>
 
