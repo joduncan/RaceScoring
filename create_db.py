@@ -42,7 +42,11 @@ def try_add( name , age , gender ):
   id = find_racer( name , age , gender )
   if id <> None:
     return id
-  c.execute( "insert into athlete( name , sex , age ) values( ? , ? , ? )" , ( name , gender , age ) )
+  try:
+    age = int( age )
+    c.execute( "insert into athlete( name , sex , age ) values( ? , ? , ? )" , ( name , gender , age ) )
+  except:
+    c.execute( "insert into athlete( name , sex ) values( ? , ? )" , ( name , gender ) )
   return c.lastrowid
 
 # a given race has a score of _n_ 
