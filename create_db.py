@@ -62,9 +62,14 @@ def factorizer( factor ):
 def score_gender( racers , race_id , factor ):
   score = factorizer( factor )
   rank = 1 
+  seen = {}
   for racer in racers:
-    c.execute( "insert into results(  race , athlete , rank , points ) values(?,?,?,?)" , ( race_id , racer , rank , score.next() ) )
-    rank = rank + 1 
+    if not seen.has_key( racer ):
+      c.execute( "insert into results(  race , athlete , rank , points ) values(?,?,?,?)" , ( race_id , racer , rank , score.next() ) )
+      rank = rank + 1 
+      seen[ racer ] = 1
+    else:
+      print "Skipping" , race_id , racer , rank
 
 def main():
   sheets = sys.argv[ 1 : ] 
