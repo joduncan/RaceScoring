@@ -42,7 +42,11 @@ def try_add( name , age , gender ):
   id = find_racer( name , age , gender )
   if id <> None:
     return id
-  c.execute( "insert into athlete( name , sex , age ) values( ? , ? , ? )" , ( name , gender , age ) )
+  try:
+    age = int( age )
+    c.execute( "insert into athlete( name , sex , age ) values( ? , ? , ? )" , ( name , gender , age ) )
+  except:
+    c.execute( "insert into athlete( name , sex ) values( ? , ? )" , ( name , gender ) )
   return c.lastrowid
 
 # a given race has a score of _n_ 
@@ -58,9 +62,14 @@ def factorizer( factor ):
 def score_gender( racers , race_id , factor ):
   score = factorizer( factor )
   rank = 1 
+  seen = {}
   for racer in racers:
-    c.execute( "insert into results(  race , athlete , rank , points ) values(?,?,?,?)" , ( race_id , racer , rank , score.next() ) )
-    rank = rank + 1 
+    if not seen.has_key( racer ):
+      c.execute( "insert into results(  race , athlete , rank , points ) values(?,?,?,?)" , ( race_id , racer , rank , score.next() ) )
+      rank = rank + 1 
+      seen[ racer ] = 1
+    else:
+      print "Skipping" , race_id , racer , rank
 
 def main():
   sheets = sys.argv[ 1 : ] 
