@@ -12,7 +12,9 @@ def print_header():
            <script src="http://cdn.jquerytools.org/1.2.7/full/jquery.tools.min.js"></script>
            </head>
            <body>"""
-
+  #rows = c.execute( 'select distinct name from race' , () )
+  #for row in rows:
+  #  print row[ 0 ] , '<br>\n'
 
 
 def tab_index( content_titles ):
