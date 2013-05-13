@@ -30,6 +30,7 @@ def clean_db():
   for td in to_del:
     c.execute( "delete from results where athlete=?" ,(td,))
     c.execute( "delete from athlete where id=?" , (td,))
+  c.execute( "vacuum" ) 
   conn.commit()
 
 
