@@ -17,7 +17,7 @@ except:
 conn = sqlite3.connect('results.db')
 c = conn.cursor()
 
-c.execute( "create table race    ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string )" )
+c.execute( "create table race    ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , factor integer )" )
 c.execute( "create table athlete ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , sex string , age integer , points float )" )
 c.execute( "create index athname on athlete(name)" ) # cut creation time from 50.8 to 30.8
 c.execute( "create table results  ( id INTEGER PRIMARY KEY AUTOINCREMENT  , race integer , athlete integer , rank integer , points float )" )
@@ -49,18 +49,8 @@ def try_add( name , age , gender ):
     c.execute( "insert into athlete( name , sex ) values( ? , ? )" , ( name , gender ) )
   return c.lastrowid
 
-# a given race has a score of _n_ 
-# each place is computed as 5/5+zero-based rank
-#  
-def factorizer( factor ):
-  factor *= 5.0
-  d = 5 
-  while True:
-    yield factor / d 
-    d +=1
-
 def score_gender( racers , race_id , factor ):
-  score = factorizer( factor )
+  score = common.factorizer( factor )
   rank = 1 
   seen = {}
   for racer in racers:
@@ -78,10 +68,11 @@ def main():
     with open( sheet ) as results_file:
       print >> sys.stderr , "processing" , sheet 
       event   = results_file.readline().strip()
-      c.execute( "insert into race(name) values(?)" , ( event , ) )
-      race_id = c.lastrowid
 
       factor = int( results_file.readline().strip() )
+      c.execute( "insert into race(name,factor) values(?,?)" , ( event , factor ) )
+      race_id = c.lastrowid
+
       male_race   = []
       female_race = [] 
       result_reader = csv.reader( results_file , delimiter = ',' , quotechar = '"' )
