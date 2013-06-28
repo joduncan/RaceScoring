@@ -1,47 +1,37 @@
-
-Number
-First Name
-Last Name
-Age
-Sex
-Time
-Overall
-Sex Place
-Team
-City
-State
-149	Justin	Stewart	25	M	1:49.2	1	1	West Coast Labels / X-gym	Springfield	IL
-68	Pj	Glassey	47	M	2:09.6	2	2	West Coast Labels / X-gym	Seattle	WA
-43	Jeffrey	Dinkin	47	M	2:28.6	3	3	West Coast Labels / X-gym	Beverly Hills	CA
-102	Ignacio	Manrique	53	M	2:40.0	4	4		Estado De Mexico	
-34	Michael	Caviston	52	M	2:43.8	5	5	West Coast Labels / X-gym	Coronado	CA
-148	Scott	Stanley	52	M	2:49.1	6	6	West Coast Labels / X-gym	Euless	TX
-129	Steve	Ronk	48	M	2:53.7	7	7	West Coast Labels / X-gym	Los Angeles	CA
-98	Alberto	Lopez	33	M	2:55.3	8	8	West Coast Labels / X-gym	Los Angeles	CA
-57	Madeleine	Fontillas Ronk	45	F	3:12.9	9	1	West Coast Labels / X-gym	Los Angeles	CA
-114	George	Ondovchak	52	M	3:13.0	10	9	Gut Check Fitness	La Jolla	CA
-177	Lisa	Zeigel	55	F	3:19.4	11	2	West Coast Labels / X-gym	Altadena	CA
-213	Ray	Fraser	24	M	3:21.3	12	10		San Diego	CA
-122	Nelson	Quong	46	M	3:23.1	13	11	West Coast Labels / X-gym	Sacramento	CA
-132	Ken	Roos	50	M	3:25.2	14	12		San Diego	CA
-79	Leland	Jay	44	M	3:31.0	15	13	West Coast Labels / X-gym	Seal Beach	CA
-96	Cindy	Levine	41	F	3:39.2	16	3	West Coast Labels / X-gym	Rancho Palos Verdes	CA
-77	John	Jarvis	48	M	3:42.8	17	14	Hughes Marino Climbers	La Jolla	CA
-14	Luis Cesar	Altamirano	62	M	3:45.7	18	15	West Coast Labels / X-gym	Zapopan	
-178	Zivadin	Zivkovic	48	M	3:47.6	19	16	West Coast Labels / X-gym	San Diego	CA
-11	Jonathan	A	15	M	3:51.0	20	17	Team Toussaint	San Diego	CA
-116	Douglas	Pais	54	M	3:53.3	21	18	West Coast Labels / X-gym	Los Angeles	CA
-156	Jane	Trahanovsky	57	F	4:13.4	22	4	West Coast Labels / X-gym	Newport Beach	CA
-142	Kenneth	Schwenker	55	M	4:14.2	23	19		Los Angeles	CA
-210	Beverly	Grant	0	F	4:15.9	24	5	West Coast Labels / X-gym	Bellevue	WA
-91	Sasha	League	30	F	4:19.8	25	6	West Coast Labels / X-gym	Encinitas	CA
-128	Marisol	Ronk	11	F	4:27.3	26	7	West Coast Labels / X-gym	Los Angeles	CA
-208	Gabriel	C	19	M	4:27.4	27	20		Addy	WA
-90	Susan	Lash	53	F	4:39.0	28	8		Normal	IL
-154	Ingrid	Thuiliere	40	F	4:40.6	29	9		San Marcos	CA
-165	Sophie	Visonneau	50	F	4:53.9	30	10		San Diego	CA
-13	Samuel	Alexander	29	M	4:56.1	31	21		San Diego	CA
-88	Tom	Kutrosky	78	M	6:59.4	32	22		Ventura	CA
-127	John Henry	Ronk	13	M	7:01.8	33	23	West Coast Labels / X-gym	Los Angeles	CA
-61	Destiny	Frost	14	F	8:15.6	34	11		San Diego	CA
-111	Ashley	Noguera	23	F	8:23.0	35	12		San Diego	CA
+San Diego Towerthon
+200
+149,"Justin Stewart",25,"M","1:49.2",1,1,"West Coast Labels / X-gym","Springfield","IL"
+68,"Pj Glassey",47,"M","2:09.6",2,2,"West Coast Labels / X-gym","Seattle","WA"
+43,"Jeffrey Dinkin",47,"M","2:28.6",3,3,"West Coast Labels / X-gym","Beverly Hills","CA"
+102,"Ignacio Manrique",53,"M","2:40.0",4,4,,"Estado De Mexico",
+34,"Michael Caviston",52,"M","2:43.8",5,5,"West Coast Labels / X-gym","Coronado","CA"
+148,"Scott Stanley",52,"M","2:49.1",6,6,"West Coast Labels / X-gym","Euless","TX"
+129,"Stephen Ronk",48,"M","2:53.7",7,7,"West Coast Labels / X-gym","Los Angeles","CA"
+98,"Alberto Lopez",33,"M","2:55.3",8,8,"West Coast Labels / X-gym","Los Angeles","CA"
+57,"Madeleine Fontillas Ronk",45,"F","3:12.9",9,1,"West Coast Labels / X-gym","Los Angeles","CA"
+114,"George Ondovchak",52,"M","3:13.0",10,9,"Gut Check Fitness","La Jolla","CA"
+177,"Lisa Zeigel",55,"F","3:19.4",11,2,"West Coast Labels / X-gym","Altadena","CA"
+213,"Ray Fraser",24,"M","3:21.3",12,10,,"San Diego","CA"
+122,"Nelson Quong",46,"M","3:23.1",13,11,"West Coast Labels / X-gym","Sacramento","CA"
+132,"Ken Roos",50,"M","3:25.2",14,12,,"San Diego","CA"
+79,"Leland Jay",44,"M","3:31.0",15,13,"West Coast Labels / X-gym","Seal Beach","CA"
+96,"Cindy Levine",41,"F","3:39.2",16,3,"West Coast Labels / X-gym","Rancho Palos Verdes","CA"
+77,"John Jarvis",48,"M","3:42.8",17,14,"Hughes Marino Climbers","La Jolla","CA"
+14,"Luis Cesar Altamirano",62,"M","3:45.7",18,15,"West Coast Labels / X-gym","Zapopan",
+178,"Zivadin Zivkovic",48,"M","3:47.6",19,16,"West Coast Labels / X-gym","San Diego","CA"
+11,"Jonathan A",15,"M","3:51.0",20,17,"Team Toussaint","San Diego","CA"
+116,"Douglas Pais",54,"M","3:53.3",21,18,"West Coast Labels / X-gym","Los Angeles","CA"
+156,"Jane Trahanovsky",57,"F","4:13.4",22,4,"West Coast Labels / X-gym","Newport Beach","CA"
+142,"Kenneth Schwenker",55,"M","4:14.2",23,19,,"Los Angeles","CA"
+210,"Beverly Grant",0,"F","4:15.9",24,5,"West Coast Labels / X-gym","Bellevue","WA"
+91,"Sasha League",30,"F","4:19.8",25,6,"West Coast Labels / X-gym","Encinitas","CA"
+128,"Marisol Ronk",11,"F","4:27.3",26,7,"West Coast Labels / X-gym","Los Angeles","CA"
+208,"Gabriel C",19,"M","4:27.4",27,20,,"Addy","WA"
+90,"Susan Lash",53,"F","4:39.0",28,8,,"Normal","IL"
+154,"Ingrid Thuiliere",40,"F","4:40.6",29,9,,"San Marcos","CA"
+165,"Sophie Visonneau",50,"F","4:53.9",30,10,,"San Diego","CA"
+13,"Samuel Alexander",29,"M","4:56.1",31,21,,"San Diego","CA"
+88,"Tom Kutrosky",78,"M","6:59.4",32,22,,"Ventura","CA"
+127,"John Henry Ronk",13,"M","7:01.8",33,23,"West Coast Labels / X-gym","Los Angeles","CA"
+61,"Destiny Frost",14,"F","8:15.6",34,11,,"San Diego","CA"
+111,"Ashley Noguera",23,"F","8:23.0",35,12,,"San Diego","CA"
