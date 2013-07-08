@@ -62,9 +62,10 @@ def score_gender( racers , race_id , factor ):
       print "Skipping" , race_id , racer , rank
 
 def main():
-  sheets = sys.argv[ 1 : ] 
+  sheets = os.popen( "ls data/*.csv" ).readlines()
 
   for sheet in sheets:
+    sheet = sheet.strip()
     with open( sheet ) as results_file:
       print >> sys.stderr , "processing" , sheet 
       event   = results_file.readline().strip()
