@@ -9,6 +9,7 @@ import csv
 import math
 import sqlite3
 import common
+import datetime
 
 try:
   os.remove( 'results.db' )
@@ -17,7 +18,7 @@ except:
 conn = sqlite3.connect('results.db')
 c = conn.cursor()
 
-c.execute( "create table race    ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , factor integer )" )
+c.execute( "create table race    ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , date date , factor integer )" )
 c.execute( "create table athlete ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , sex string , age integer , points float )" )
 c.execute( "create index athname on athlete(name)" ) # cut creation time from 50.8 to 30.8
 c.execute( "create table results  ( id INTEGER PRIMARY KEY AUTOINCREMENT  , race integer , athlete integer , rank integer , points float )" )
@@ -70,8 +71,10 @@ def main():
       print >> sys.stderr , "processing" , sheet 
       event   = results_file.readline().strip()
 
+      dp = [ int(x) for x in results_file.readline().strip().split('-') ]
+      date = datetime.date( dp[0] , dp[1], dp[2]  )
       factor = int( results_file.readline().strip() )
-      c.execute( "insert into race(name,factor) values(?,?)" , ( event , factor ) )
+      c.execute( "insert into race(name,factor,date) values(?,?,?)" , ( event , factor , date ) )
       race_id = c.lastrowid
 
       male_race   = []
