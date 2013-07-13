@@ -73,7 +73,16 @@ def main():
 
       dp = [ int(x) for x in results_file.readline().strip().split('-') ]
       date = datetime.date( dp[0] , dp[1], dp[2]  )
-      factor = int( results_file.readline().strip() )
+
+      #so much ugly code, especially this:
+      fs = results_file.readline().strip()
+      try:
+        factor = int( fs )
+      except:
+        url = fs
+        fs = results_file.readline().strip()
+        factor = int( fs )
+
       c.execute( "insert into race(name,factor,date) values(?,?,?)" , ( event , factor , date ) )
       race_id = c.lastrowid
 
