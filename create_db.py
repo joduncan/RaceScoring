@@ -76,12 +76,9 @@ def main():
 
       #so much ugly code, especially this:
       fs = results_file.readline().strip()
-      try:
-        factor = int( fs )
-      except:
-        url = fs
-        fs = results_file.readline().strip()
-        factor = int( fs )
+      url = fs
+      fs = results_file.readline().strip()
+      factor = int( fs )
 
       c.execute( "insert into race(name,factor,date) values(?,?,?)" , ( event , factor , date ) )
       race_id = c.lastrowid
