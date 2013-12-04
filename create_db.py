@@ -50,17 +50,19 @@ def try_add( name , age , gender ):
     c.execute( "insert into athlete( name , sex ) values( ? , ? )" , ( name , gender ) )
   return c.lastrowid
 
-def score_gender( racers , race_id , factor ):
-  score = common.factorizer( factor )
+ 
+def add_gender( race_id , racers ):
   rank = 1 
   seen = {}
   for racer in racers:
     if not seen.has_key( racer ):
-      c.execute( "insert into results(  race , athlete , rank , points ) values(?,?,?,?)" , ( race_id , racer , rank , score.next() ) )
+      c.execute( "insert into results(  race , athlete , rank ) values(?,?,?)" , ( race_id , racer , rank ) )
       rank = rank + 1 
       seen[ racer ] = 1
     else:
       print "Skipping" , race_id , racer , rank
+   
+
 
 def main():
   sheets = os.popen( "ls data/*.csv" ).readlines()
@@ -107,24 +109,8 @@ def main():
             pass 
         except:
           print >> sys.stderr , "No age for " , name 
-    score_gender( male_race   , race_id , factor )
-    score_gender( female_race , race_id , factor )     
+      add_gender( race_id , male_race )
+      add_gender( race_id , female_race )
 
-
-def compute_runner_score():
-  rows = c.execute( "select id from athlete" )
-  ids = []
-  for row in rows:
-    ids.append( row[ 0 ] )
-  for id in ids:
-    r2 = c.execute( common.athlete_best_races , (id, common.races_that_count ) )
-    score = 0
-    for r in r2:
-      score += r[ 1 ]
-    c.execute( "update athlete set points = ? where id = ?" , ( score , id ) )
-      
-  
 main()
-conn.commit()
-compute_runner_score()
 conn.commit()
