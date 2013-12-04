@@ -25,7 +25,7 @@ def clean_db():
   res = c.execute( 'select athlete,count(*) from results group by athlete' ) 
   to_del = []
   for (id,count) in res:
-    if count < 3:
+    if count < 2:
       to_del.append( id )
   for td in to_del:
     c.execute( "delete from results where athlete=?" ,(td,))
@@ -34,20 +34,5 @@ def clean_db():
   conn.commit()
 
 
-def adjust_races():
-  r = c.execute( "select id from athlete" )
-  a = []
-  for ath in r:
-    a.append( ath[ 0 ] ) 
-
-  for ath in a:
-    res = c.execute( 'select race.name,max(points),rank from results join race on race = race.id where athlete = ? group by race.name order by max(points) desc' , (ath,))
-    races = []
-    for r in res:
-      races.append( r[ 0 ] )
-    race_count = len( races )
-    print ath , race_count , races 
-
-#clean_db()
-adjust_races()
+clean_db()
 
