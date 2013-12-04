@@ -32,12 +32,19 @@ def sub_report( sex , range , limit , sexname ):
     #print >>sys.err , row 
     #row = [ i.encode( 'ascii' ) for i in row ] 
     row[ 0 ] = "#%d %s" % ( rank , row[ 0 ].encode( 'ascii' , 'replace' ) )
-    res = c.execute( common.athlete_best_races , (id,) )
+    res = c.execute( common.athlete_best_races , (id,100) )
     for r in res:
       row.append( "%s(%d)<br>%.2f" % ( r[ 0 ] , r[ 2 ] ,  r[ 1 ] ) )
     print "<tr>"
+    col = 1
     for r in row:
-      print "<td>%s</td>" % r
+      color = 'White'
+      if col > 3:
+        color = 'AliceBlue'
+      if col > 8:
+        color = 'Crimson'
+      print '<td bgcolor="%s">%s</td>' % ( color , r ) 
+      col = col + 1 
     print "</tr>"
     rank += 1
   print "</table>"

@@ -117,7 +117,7 @@ def compute_runner_score():
   for row in rows:
     ids.append( row[ 0 ] )
   for id in ids:
-    r2 = c.execute( common.athlete_best_races , (id, ) )
+    r2 = c.execute( common.athlete_best_races , (id, common.races_that_count ) )
     score = 0
     for r in r2:
       score += r[ 1 ]
