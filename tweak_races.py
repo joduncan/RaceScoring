@@ -1,7 +1,12 @@
+#!/usr/bin/python
+
 
 import sqlite3
 import common
 import math
+import sys
+
+delta = int( sys.argv[1] )
 
 conn = sqlite3.connect('results.db')
 c = conn.cursor()
@@ -37,6 +42,6 @@ for r in rh.keys():
   bonus = rh[r][1]
   print r , bonus
   if bonus <> 0:
-    c.execute( "update race set factor = ? where name = ?" , ( rh[ r ][ 0 ] + math.copysign( 1 , bonus ) , r ) )
+    c.execute( "update race set factor = ? where name = ?" , ( rh[ r ][ 0 ] + math.copysign( delta , bonus ) , r ) )
 conn.commit()
 
