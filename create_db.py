@@ -18,7 +18,7 @@ except:
 conn = sqlite3.connect('results.db')
 c = conn.cursor()
 
-c.execute( "create table race    ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , date date , factor integer )" )
+c.execute( "create table race    ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , date date , factor integer , url string )" )
 c.execute( "create table athlete ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , sex string , age integer , points float )" )
 c.execute( "create index athname on athlete(name)" ) # cut creation time from 50.8 to 30.8
 c.execute( "create table results  ( id INTEGER PRIMARY KEY AUTOINCREMENT  , race integer , athlete integer , rank integer , points float )" )
@@ -82,7 +82,7 @@ def main():
       fs = results_file.readline().strip()
       factor = int( fs )
 
-      c.execute( "insert into race(name,factor,date) values(?,?,?)" , ( event , factor , date ) )
+      c.execute( "insert into race(name,factor,date,url) values(?,?,?,?)" , ( event , factor , date , url ) )
       race_id = c.lastrowid
 
       male_race   = []

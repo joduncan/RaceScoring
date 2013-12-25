@@ -2,7 +2,7 @@
 
 import sqlite3
 import common
-
+import time 
 import sys
 
 conn = sqlite3.connect('results.db')
@@ -60,6 +60,11 @@ for a in age_ranges:
 
 sexes = [ [ 'F' , 'Women' , 'females' ] , [ 'M' , 'Men' , 'males' ] ] 
 
+gs = open( "genders.html" , "w" )
+print >> gs , "Rankings as of " + time.strftime("%x")
+for l in open( "genders.templ" ).readlines():
+  print >>gs , l 
+
 for sex in sexes:
   limit = 250000
 
@@ -71,5 +76,16 @@ for sex in sexes:
       ar = "%d-%d" % ( age_range[ 0 ] , age_range[ 1 ] )
     sys.stdout = open( "%s-%s.html" % ( sex[ -1 ] , ar ) , "w" ) 
     sub_report( sex[ 0 ]  , age_range , limit , sex[ -1 ] )
+
+
+###
+#
+# Now generate a list of races that people can look at
+# 
+###
+rows = c.execute( "select name ,date , url from race group by name order by date" )
+out = open( "race_list.html" , "w" )
+for name,date,url in rows:
+  print >>out , '<a href="%s">%s</a> %s<br>' % ( url , name , date )
 
 
