@@ -60,7 +60,8 @@ def add_gender( race_id , racers ):
       rank = rank + 1 
       seen[ racer ] = 1
     else:
-      print "Skipping" , race_id , racer , rank
+      pass
+      #print "Skipping" , race_id , racer , rank
    
 
 
@@ -76,6 +77,9 @@ def main():
       dp = [ int(x) for x in results_file.readline().strip().split('-') ]
       date = datetime.date( dp[0] , dp[1], dp[2]  )
 
+      if date < datetime.date.today()-datetime.timedelta(365):
+        print "******event is over a year old, skipping" 
+        continue 
       #so much ugly code, especially this:
       fs = results_file.readline().strip()
       url = fs

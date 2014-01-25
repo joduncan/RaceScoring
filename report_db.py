@@ -26,6 +26,7 @@ def sub_report( sex , range , limit , sexname ):
   print '<table border="3">'
   rank = 1
   for row in r2:
+    print >>sys.stderr , row 
     row[ 3 ] = "%.2f" % row[ 3 ]
     id = row[ 0 ]
     row = row[ 1: ]
