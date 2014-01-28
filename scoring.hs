@@ -10,10 +10,10 @@ data Athlete = Athlete { aname    :: String ,
                          sex      :: String , 
                          age      :: Integer } deriving (Show,Read)
                          
-data Race    = Race    { rname  :: String , 
-                         date  :: String , 
-                         url   :: String , 
-                         rpoints :: Int } deriving (Show,Read)
+data Race    = Race    { rname    :: String , 
+                         date     :: String , 
+                         url      :: String , 
+                         rpoints  :: Int } deriving (Show,Read)
 
 r = Race "Bop to the top" "2014-1-18" "foo" 100
 
@@ -23,10 +23,12 @@ e = (r,al)
 
 el = [e]
 
+--fn = writeFile "test.hd" (show el)
 
---go = do
---  fc <- (readFile "test.hd") 
---  read fc
+go l = do
+  str <- (readFile "test.hd")
+  str
+  --(read str)::[(Race,[Athlete])]
                    
 --read_csv fn = 
 --  do
