@@ -95,11 +95,10 @@ def main():
       for result in result_reader:
         result = [unicode(cell, 'utf-8') for cell in result]
         (name,age,gender,time) = [ result[a].strip().upper() for a in (1,2,3,-1) ]
+        name = " ".join( name.split() )
         gender = gender.upper()
-        if gender == 'MALE':
-          gender = 'M'
-        if gender == 'FEMALE':
-          gender = 'F'
+        if len(gender)>1:
+          gender = gender[:1]
         athlete_id = try_add( name , age , gender )
         try:
           age = str(age)
