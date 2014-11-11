@@ -66,7 +66,7 @@ def add_gender( race_id , racers ):
 
 
 def main():
-  sheets = os.popen( "ls data/*.csv" ).readlines()
+  sheets = os.popen( "ls -t data/*.csv" ).readlines()
 
   for sheet in sheets:
     sheet = sheet.strip()
@@ -97,6 +97,7 @@ def main():
         (name,age,gender,time) = [ result[a].strip().upper() for a in (1,2,3,-1) ]
         name = " ".join( name.split() )
         gender = gender.upper()
+        gender=gender.strip()
         if len(gender)>1:
           gender = gender[:1]
         athlete_id = try_add( name , age , gender )
