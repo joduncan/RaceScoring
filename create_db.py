@@ -72,18 +72,25 @@ def main():
     sheet = sheet.strip()
     with open( sheet ) as results_file:
       print >> sys.stderr , "processing" , sheet 
-      event   = results_file.readline().strip()
+      def pop():
+        l = results_file.readline().strip().split(",")
+        if len(l)==1:
+          return l[0]
+        else:
+          return l[1]
 
-      dp = [ int(x) for x in results_file.readline().strip().split('-') ]
+      event = pop()
+
+      dp = [ int(x) for x in pop().strip().split('-') ]
       date = datetime.date( dp[0] , dp[1], dp[2]  )
 
       if date < datetime.date.today()-datetime.timedelta(365):
         print "******event is over a year old, skipping" 
         continue 
       #so much ugly code, especially this:
-      fs = results_file.readline().strip()
+      fs = pop()
       url = fs
-      fs = results_file.readline().strip()
+      fs = pop()
       factor = int( fs )
 
       c.execute( "insert into race(name,factor,date,url) values(?,?,?,?)" , ( event , factor , date , url ) )
