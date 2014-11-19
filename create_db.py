@@ -28,7 +28,7 @@ def find_racer( name , age , gender ):
   try:
     age = int( age )
     c.execute( "select id , age from athlete where name=? and sex=? and ( ( age >= ? ) and ( age <= ? ) or age is null )" , 
-               ( name , gender , age - 1 , age + 1 ) ) 
+               ( name , gender , age - 2 , age + 2 ) ) 
   except:
     c.execute( "select id , age from athlete where name=? and sex=?" , ( name , gender  ) )
   try:
