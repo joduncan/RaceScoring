@@ -63,6 +63,12 @@ def add_gender( race_id , racers ):
       pass
       #print "Skipping" , race_id , racer , rank
    
+def fixName( name ):
+   cs = name.split( "," )
+   if len( cs ) > 1:
+     name = cs[1]+" "+cs[0]
+   name = " ".join( name.split() )
+   return name
 
 
 def main():
@@ -102,7 +108,8 @@ def main():
       for result in result_reader:
         result = [unicode(cell, 'utf-8') for cell in result]
         (name,age,gender,time) = [ result[a].strip().upper() for a in (1,2,3,-1) ]
-        name = " ".join( name.split() )
+
+        name = fixName( name ) 
         gender = gender.upper()
         gender=gender.strip()
         if len(gender)>1:
