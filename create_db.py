@@ -33,8 +33,9 @@ def find_racer( name , age , gender ):
     c.execute( "select id , age from athlete where name=? and sex=?" , ( name , gender  ) )
   try:
     row = c.fetchone()
-    if isinstance( age , int ) and row[ 1 ] == None:
-      c.execute( "update athlete set age = ? where id = ?" , ( age , row[ 0 ] ) )
+    if isinstance( age , int ): 
+      if row[ 1 ] == None or age>row[1]:
+        c.execute( "update athlete set age = ? where id = ?" , ( age , row[ 0 ] ) )
     return row[ 0 ]
   except:
     return None
