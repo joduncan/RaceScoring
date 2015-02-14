@@ -61,7 +61,7 @@ for a in age_ranges:
 
 sexes = [ [ 'F' , 'Women' , 'females' ] , [ 'M' , 'Men' , 'males' ] ] 
 
-gs = open( "genders.html" , "w" )
+gs = open( "html/genders.html" , "w" )
 print >> gs , "Rankings as of " + time.strftime("%x")
 for l in open( "genders.templ" ).readlines():
   print >>gs , l 
@@ -75,7 +75,7 @@ for sex in sexes:
       ar = "all"
     else:
       ar = "%d-%d" % ( age_range[ 0 ] , age_range[ 1 ] )
-    sys.stdout = open( "%s-%s.html" % ( sex[ -1 ] , ar ) , "w" ) 
+    sys.stdout = open( "html/%s-%s.html" % ( sex[ -1 ] , ar ) , "w" ) 
     sub_report( sex[ 0 ]  , age_range , limit , sex[ -1 ] )
 
 
@@ -85,7 +85,7 @@ for sex in sexes:
 # 
 ###
 rows = c.execute( "select name ,date , url from race group by name order by date" )
-out = open( "race_list.html" , "w" )
+out = open( "html/race_list.html" , "w" )
 for name,date,url in rows:
   print >>out , '<a href="%s">%s</a> %s<br>' % ( url , name , date )
 
