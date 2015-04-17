@@ -13,21 +13,26 @@ object Utils
 }
 
 case class RaceRow( name : String , age: Option[Int] , gender: String ) {
-  //def this( name : String , age : String , gender: String ) = this( name , Utils.toInty( age ) , gender )
+  def this( name : String , sage : String , gender: String ) = this( name , Utils.toInty( sage ) , gender )
+}
+
+case class Athlete( name : String , var age : Option[Int] , gender: String ) { 
 }
 
 object RaceScoring {
-    def main(args: Array[String]) {
-	val reader   = CSVReader.open(new File("data/2015-oakbrook-ph.csv"))
-        val it = reader.iterator 
+
+    def readCsv( fn : String ) { 
+      	val reader   = CSVReader.open( new File( fn ) )
+        val it       = reader.iterator 
         //val contents = reader.all()
         val name     = it.next
         val date     = it.next
         val url      = it.next
         val points   = it.next
-	for( row <- it ) {
-          val rr = RaceRow( row( 1 ) , Utils.toInty( row ( 2 ) ) , row( 3 ) ) 
-          println(rr)
-	} 
+        it.map( row => new RaceRow( row( 1 ) , row( 2 ) , row( 3 ) ) ) 
+    }
+  
+    def main(args: Array[String]) {
+        readCsv( "data/2015-oakbrook-ph.csv" ) 
     }
 }
