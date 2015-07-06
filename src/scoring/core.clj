@@ -39,13 +39,15 @@
 (defn scores[base]
   "an infinite list of descending scores per rank starting with the base score"
   (map (fn[i]{:score (* base (/ 5 (+ 5 i)))}) (range)))
+(def scores (memoize scores))
 
 (defn ranking-list
   "an infinite list of ranks, used for females, males, and overall" 
   [key] (map (fn[i]{key (+ i 1)}) (range))) 
+(def ranking-list (memoize ranking-list))
 
 (defn to-race-struct[filename data]
-  (prn "loading" filename)
+  ;(prn "loading" filename)
   (let [itm        (fn[i](string/trim (get (nth data i) 0)))
         points     (Integer. (itm 3))
 	racers     (map merge (map row-to-athlete-result (drop 4 data)) (ranking-list :overall-rank))
@@ -65,7 +67,7 @@
      	     (to-race-struct fn (doall (csv/read-csv in-file)))))
 
 (defn load-all-races[]
-  (map load-race-data (rest (file-seq (java.io.File. "data")))))
+  (pmap load-race-data (rest (file-seq (java.io.File. "data")))))
 
 ;(def race-data (load-all-races))
 
