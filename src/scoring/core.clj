@@ -29,6 +29,7 @@
 (defn list-getter[lst]
   #(try (nth lst %) (catch Exception e "")))
 
+; TODO: flip it when the format is last, first 
 (defn row-to-athlete-result[row]
   (let [itm (comp string/trim (list-getter row))]
     {:name (itm 1)
@@ -46,7 +47,7 @@
   [key] (map (fn[i]{key (+ i 1)}) (range))) 
 (def ranking-list (memoize ranking-list))
 
-(defn to-race-struct[filename data]
+(defn to-race-struct[filename data id]
   ;(prn "loading" filename)
   (let [itm        (fn[i](string/trim (get (nth data i) 0)))
         points     (Integer. (itm 3))
@@ -60,16 +61,34 @@
    :points        points
    :male-racers   (sexer :male :male-rank)
    :female-racers (sexer :female :female-rank)
+   :race-id id
    }))
   
-(defn load-race-data[fn]  
+(defn load-race-data[fn id]  
   (with-open [in-file (io/reader fn)]
-     	     (to-race-struct fn (doall (csv/read-csv in-file)))))
+     	     (to-race-struct fn (doall (csv/read-csv in-file)) id)))
 
 (defn load-all-races[]
-  (pmap load-race-data (rest (file-seq (java.io.File. "data")))))
+  (map load-race-data (rest (file-seq (java.io.File. "data")))(range)))
 
-;(def race-data (load-all-races))
+(def races (load-all-races))
+
+(def race-map (apply hash-map (apply concat (map (fn[race][(:race-id race) race]) races))))
+
+(defn flatten-racers[gender] (apply concat (map gender races)))
+
+
+(defn athlete-comparator[a1 a2] 
+  (let [name-comparison (compare (:name a1) (:name a2))
+        null-to-zero #(if (nil? %) 0 %)
+	age-1 (null-to-zero (:age a1))
+	age-2 (null-to-zero (:age a2))]
+	(if (zero? name-comparison)
+	    (- age-2 age-1)
+	    name-comparison)))
+	
+(def male-athletes (sort athlete-comparator (flatten-racers :male-racers)))
+
 
 (defn make-scores[ args ]
   (print "making scores"))
