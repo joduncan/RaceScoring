@@ -1,0 +1,153 @@
+var d3 = require('d3');
+var _ = require('lodash');
+
+var ChordViz = function(selector, data, images, opts) {
+    this.opts = opts || {};
+
+    this.width = (this.opts.width || $(selector).width());
+    this.height = (this.opts.height || (this.width * 0.6));
+    this.innerRadius = Math.min(this.width, this.height) * .30;
+    this.outerRadius = this.innerRadius * 1.1;
+
+    this.data = this._formatData(data);
+    this.selector = selector;
+    this._init();
+};
+
+ChordViz.prototype._init = function() {
+    // draw the actual visualization here
+    // e.g.
+    svg = d3.select(this.selector)
+        .append("svg:svg")
+        .attr("width", this.width)
+        .attr("height", this.height)
+        .append("g")
+        .attr("transform", "translate(" + this.width / 2 + "," + this.height / 2 + ")");
+
+    var fill = "#3498db";
+
+    // The ring
+    svg.append("g").selectAll("path")
+        .data(this.data.groups)
+        .enter().append("path")
+        .style("fill", fill)
+        .style("stroke", fill)
+        .attr("d", d3.svg.arc().innerRadius(this.innerRadius).outerRadius(this.outerRadius))
+        .on("mouseover", function (d, i) {
+            _highLight(d, i);
+            _fade(.01)(d, i);
+        })
+        .on("mouseout", function (d, i){
+            _reset(d, i);
+            _fade(1)(d, i);
+        });
+
+    // The chord
+    svg.append("g")
+        .attr("class", "chord")
+        .selectAll("path")
+        .data(this.data.chords)
+        .enter().append("path")
+        .attr("d", d3.svg.chord().radius(this.innerRadius * 0.95))
+        .style("fill", "#9b59b6")
+        .style("opacity", 1);
+
+    // The label
+    var outerRadius = this.outerRadius;
+    svg.append("g").selectAll("text")
+        .data(this.data.groups).enter().append("text")
+        .attr("transform", function (d) {
+            return "rotate(" + ((d.startAngle + d.endAngle) * 90 / Math.PI - 90) + ") translate(" + outerRadius + ",0)"
+        })
+        .attr("dx", "0.5em")
+        .attr("dy", "0.5em")
+        .text(function (d) {
+            return d.label;
+        });
+
+    var _fade = function(opacity) {
+        return function (g, i) {
+            svg.selectAll(".chord path")
+                .filter(function (d) {
+                    return d.source.index != i && d.target.index != i;
+                })
+                .transition()
+                .style("opacity", opacity);
+        };
+    };
+
+    var _highLight = function(d, i) {
+        svg.selectAll(".chord path")
+            .filter(function (d) {
+                return d.source.index == i;
+            })
+            .style("fill", "#e74c3c");
+        svg.selectAll(".chord path")
+            .filter(function (d) {
+                return d.target.index == i;
+            })
+            .style("fill", "#2ecc71");
+    };
+
+    var _reset = function(d, i) {
+        svg.selectAll(".chord path")
+            .filter(function (d) {
+                return d.source.index == i || d.target.index == i;
+            })
+            .style("fill", "#9b59b6");
+    };
+};
+
+ChordViz.prototype._formatData = function(data) {
+    function groups(input) {
+        var count = input.nodes.length;
+        var sum = input.size ? d3.sum(input.size) : count;
+        var paddingAngle = 0.03;
+        var unit = (2 * Math.PI - paddingAngle * count) / sum;
+
+        var endAngle = 0.0;
+        return _.range(count).map(function (index) {
+            var value = input.size ? input.size[index] : 1;
+            var startAngle = endAngle + paddingAngle;
+            endAngle = startAngle + value * unit;
+            return {
+                "value": value,
+                "startAngle": startAngle,
+                "endAngle": endAngle,
+                "index": index,
+                "label": input.name[index]+(new Array(Math.floor(input.size[index]/4) + 1).join("*"))
+            }
+        });
+    }
+
+    function chords(input) {
+        var lookupTable = groups(input);
+        return input.links.map(function (link) {
+            var source = lookupTable[link[0]];
+            var target = lookupTable[link[1]];
+            var chordWidth = 0.001*link[2];
+            var chordPadding = 0.01;
+            return {
+                "source": {
+                    "startAngle": source.startAngle + chordPadding + chordWidth / 2,
+                    "endAngle": source.startAngle + chordPadding - chordWidth / 2,
+                    "index": link[0],
+                    "value": link[2]
+                },
+                "target": {
+                    "startAngle": target.endAngle - chordPadding + chordWidth / 2,
+                    "endAngle": target.endAngle - chordPadding - chordWidth / 2,
+                    "index": link[1],
+                    "value": link[2]
+                }
+            }
+        });
+    }
+
+    return {
+        "groups": groups(data),
+        "chords": chords(data)
+    }
+};
+
+module.exports = ChordViz;
