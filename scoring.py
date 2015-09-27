@@ -11,13 +11,14 @@ limit = 0 # set to zero to score everybody
            # todo: add this as a command line argument
 
 def score_gender( gender , results , race , factor ):
-
   factors = factorizer( factor )
   rank = 1 
   for name,time in results:
     if not gender.has_key( name ):
       gender[ name ] = []
-    gender[ name ].append( ( race , factors.next() , rank ) )
+    rf = factors.next()
+    print rf 
+    gender[ name ].append( ( race , rf , rank ) )
     rank = rank + 1 
 
 def remove_lower_scoring_duplicates( results ):
@@ -67,16 +68,6 @@ def gender_results( gender_name , gender ):
     rank = rank + 1 
   print '</table>'
  
-
-# a given race has a score of _n_ 
-# each place is computed as 5/5+zero-based rank
-#  
-def factorizer( factor ):
-  factor *= 5.0
-  d = 5 
-  while True:
-    yield factor / d 
-    d +=1
 
 def main():
   sheets = sys.argv[ 1 : ] 

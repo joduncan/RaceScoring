@@ -72,6 +72,9 @@ def fixName( name ):
    return name
 
 
+def nastrip(str):
+  return ''.join(i for i in str if ord(i)<128)
+
 def main():
   sheets = os.popen( "ls -t data/*.csv" ).readlines()
 
@@ -108,26 +111,23 @@ def main():
       result_reader = csv.reader( results_file , delimiter = ',' , quotechar = '"' )
       for result in result_reader:
         result = [unicode(cell, 'utf-8') for cell in result]
-        (name,age,gender,time) = [ result[a].strip().upper() for a in (1,2,3,-1) ]
-
+        (name,age,gender,time) = [ nastrip( result[a].strip().upper()) for a in (1,2,3,-1) ]
+        
         name = fixName( name ) 
         gender = gender.upper()
         gender=gender.strip()
         if len(gender)>1:
           gender = gender[:1]
         athlete_id = try_add( name , age , gender )
-        try:
-          age = str(age)
-          #print name , gender , time 
-          gender = gender.upper()
-          if gender == 'M':
-            male_race.append( athlete_id )
-          elif gender == 'F':
-            female_race.append( athlete_id )  
-          else: 
-            pass 
-        except:
-          print >> sys.stderr , "No age for " , name 
+        age = str(age)
+        #print name , gender , time 
+        gender = gender.upper()
+        if gender == 'M':
+          male_race.append( athlete_id )
+        elif gender == 'F':
+          female_race.append( athlete_id )  
+        else: 
+          pass 
       add_gender( race_id , male_race )
       add_gender( race_id , female_race )
 
