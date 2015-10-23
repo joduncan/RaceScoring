@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Untitled Document</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<style type="text/css">
+.mytable {
+border:1px solid #000000;
+border-collapse:collapse;
+width:200px;
+}
+.mytable td{
+background:#cccccc;
+border:1px solid #000000;
+}
+</style>
+
+<script type="text/javascript">
+onload=function()
+{
+  var rows=5000;
+
+  points=Number(prompt("How many points is the race worth?"));
+
+  var root=document.getElementById('mydiv');
+  var tab=document.createElement('table');
+  tab.className="mytable";
+  var tbo=document.createElement('tbody');
+  var row, cell;
+  for(var i=0;i<rows;i++)
+  {
+    row=document.createElement('tr');
+
+    cell=document.createElement('td');
+    cell.appendChild(document.createTextNode("Finish place " + (i+1) ))
+    row.appendChild(cell);
+
+    cell=document.createElement('td');
+    pfr = points * 5.0 / (i+5);
+    pfr = pfr.toFixed(2);
+    cell.appendChild(document.createTextNode("" + pfr + " points"))
+    row.appendChild(cell);
+
+    tbo.appendChild(row);
+  }
+  tab.appendChild(tbo);
+  root.appendChild(tab);
+}
+</script>
+</head>
+<body>
+<div id="mydiv"></div>
+</body>
+</html>
