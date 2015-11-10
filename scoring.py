@@ -33,10 +33,6 @@ def remove_lower_scoring_duplicates( results ):
       
 
 def results_for( racer , results ):
-  #if racer == "KAREN GENINATTI":
-  #  print results 
-  #  results = remove_lower_scoring_duplicates( results )
-  #   print results
   results = remove_lower_scoring_duplicates( results )
   results.sort( key = lambda tup: tup[ 1 ][ 0 ] )
   results.reverse() 

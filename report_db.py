@@ -11,6 +11,9 @@ c = conn.cursor()
 def sub_report( sex , range , limit , sexname ):
   print "<br><br>"
 
+  ignores = open( "data/ignores").readlines()
+  ignores = [ i.strip().upper() for i in ignores ]
+
   if range == None: 
     print "All %s" % sexname
     rows = c.execute( 'select id,name,age,points from athlete where sex=? order by points desc limit ?' , ( sex , limit ) )
@@ -22,7 +25,8 @@ def sub_report( sex , range , limit , sexname ):
                       ( sex , low , high , limit ) )
   r2 = [] 
   for row in rows:
-    r2.append( list( row ) )
+    if not (row[1] in ignores):
+      r2.append( list( row ) )
   print '<table border="3">'
   rank = 1
   for row in r2:
