@@ -11,20 +11,28 @@ import sqlite3
 import common
 import datetime
 
-try:
-  os.remove( 'results.db' )
-except:
-  pass
-conn = sqlite3.connect('results.db')
+#try:
+#  os.remove( 'results.db' )
+#except:
+#  pass
+conn = sqlite3.connect(common.db)
 c = conn.cursor()
 
-c.execute( "create table race    ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , date date , factor integer , url string )" )
-c.execute( "create table athlete ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , sex string , age integer , points float )" )
-c.execute( "create index athname on athlete(name)" ) # cut creation time from 50.8 to 30.8
-c.execute( "create table results  ( id INTEGER PRIMARY KEY AUTOINCREMENT  , race integer , athlete integer , rank integer , points float )" )
-c.execute( "create index resath on results(athlete)" ) #cut creation time from 30.8 to 1.26 (!!) 
+try:
+  c.execute( "create table race    ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , date date , factor integer , url string )" )
+  c.execute( "create table athlete ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , sex string , age integer , points float )" )
+  c.execute( "create index athname on athlete(name)" ) # cut creation time from 50.8 to 30.8
+  c.execute( "create table results  ( id INTEGER PRIMARY KEY AUTOINCREMENT  , race integer , athlete integer , rank integer , points float )" )
+  c.execute( "create index resath on results(athlete)" ) #cut creation time from 30.8 to 1.26 (!!) 
 
-c.execute( "create table sheets ( id INTEGER PRIMARY KEY AUTOINCREMENT, name string, sex string, category string, rank integer, points float, results string ) " )
+  c.execute( "create table sheets ( id INTEGER PRIMARY KEY AUTOINCREMENT, name string, sex string, age integer, category string, ranking integer, points float, results string ) " )
+except:
+  pass
+
+c.execute( "delete from race where 1=1" )
+c.execute( "delete from athlete where 1=1" )
+c.execute( "delete from results where 1=1" )
+c.execute( "delete from sheets where 1=1" )
 
 
 def find_racer( name , age , gender ):

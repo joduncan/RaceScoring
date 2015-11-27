@@ -5,7 +5,7 @@ import common
 import time 
 import sys
 
-conn = sqlite3.connect('results.db')
+conn = sqlite3.connect(common.db)
 c = conn.cursor()
 
 def sub_report( sex , range , limit , sexname ):
@@ -33,6 +33,7 @@ def sub_report( sex , range , limit , sexname ):
   rank = 1
   for row in r2:
 
+    age = row[2]
     points = row[3]
     row[ 3 ] = "%.2f" % points
     id = row[ 0 ]
@@ -54,7 +55,7 @@ def sub_report( sex , range , limit , sexname ):
       print '<td bgcolor="%s">%s</td>' % ( color , r ) 
       col = col + 1 
     print "</tr>"
-    c.execute( "insert into sheets(name,sex,category,rank,points,results) values(?,?,?,?,?,?)" , (name,sex,category,rank,points,"") )
+    c.execute( "insert into sheets(name,age,sex,category,ranking,points,results) values(?,?,?,?,?,?,?)" , (name,age,sex,category,rank,points,"") )
     rank += 1
   print "</table>"
   conn.commit()
