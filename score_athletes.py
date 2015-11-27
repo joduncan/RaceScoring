@@ -3,7 +3,7 @@
 import sqlite3
 import common
 
-conn = sqlite3.connect('results.db')
+conn = sqlite3.connect(common.db)
 c = conn.cursor()
 
 def compute_runner_score():
