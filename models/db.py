@@ -99,5 +99,5 @@ db.define_table( 'sheets' ,
     Field('results', type='string', label=T('results')),
     Field('category' , type='string', label=T('category')),
     Field('age' , type='integer', label=T('age'))
-    ,migrate=False
+    #,migrate=False
  )

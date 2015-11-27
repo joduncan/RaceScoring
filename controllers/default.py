@@ -36,7 +36,7 @@ def index():
                            Field('name') )
     ds = db.sheets
     fields = [
-        ds.name , ds.ranking, ds.age, ds.points, ds.results ]
+        ds.ranking , ds.name , ds.age, ds.points, ds.results ]
 
     chosenSex = 'M'
     chosenCategory = 'Open'
@@ -44,7 +44,6 @@ def index():
 
     if form.process().accepted:
       chosenSex = form.vars.sex
-      f1.default = chosenSex
       chosenCategory = form.vars.category 
       namesearch = form.vars.name
       print namesearch
@@ -57,8 +56,6 @@ def index():
 
     grid = SQLFORM.grid( q , fields = fields , search_widget = None )
     return dict(form=form,grid=grid)
-    #response.flash = T("Hello World")
-    #return dict(message=T('Welcome to web2py!'))
 
 
 def user():
