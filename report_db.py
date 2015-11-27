@@ -99,4 +99,5 @@ out = open( "html/race_list.html" , "w" )
 for name,date,url in rows:
   print >>out , '<a href="%s">%s</a> %s<br>' % ( url , name , date )
 
+c.execute( "vacuum" )
 
