@@ -24,6 +24,9 @@ c.execute( "create index athname on athlete(name)" ) # cut creation time from 50
 c.execute( "create table results  ( id INTEGER PRIMARY KEY AUTOINCREMENT  , race integer , athlete integer , rank integer , points float )" )
 c.execute( "create index resath on results(athlete)" ) #cut creation time from 30.8 to 1.26 (!!) 
 
+c.execute( "create table sheets ( id INTEGER PRIMARY KEY AUTOINCREMENT, name string, sex string, category string, rank integer, points float, results string ) " )
+
+
 def find_racer( name , age , gender ):
   try:
     age = int( age )

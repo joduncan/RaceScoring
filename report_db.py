@@ -11,6 +11,7 @@ c = conn.cursor()
 def sub_report( sex , range , limit , sexname ):
   print "<br><br>"
 
+  category = "Open"
   ignores = open( "data/ignores").readlines()
   ignores = [ i.strip().upper() for i in ignores ]
 
@@ -19,6 +20,7 @@ def sub_report( sex , range , limit , sexname ):
     rows = c.execute( 'select id,name,age,points from athlete where sex=? order by points desc limit ?' , ( sex , limit ) )
   else:
     (low,high) = range
+    category = "%d-%d" % ( low , high )
     print sexname , 
     print " ages %d to %d" % range 
     rows = c.execute( 'select id,name,age,points from athlete where sex=? and age>= ? and age <= ? order by points desc limit ?' , 
@@ -30,13 +32,14 @@ def sub_report( sex , range , limit , sexname ):
   print '<table border="3">'
   rank = 1
   for row in r2:
-    # print >>sys.stderr , row 
-    row[ 3 ] = "%.2f" % row[ 3 ]
+
+    points = row[3]
+    row[ 3 ] = "%.2f" % points
     id = row[ 0 ]
     row = row[ 1: ]
-    #print >>sys.err , row 
-    #row = [ i.encode( 'ascii' ) for i in row ] 
-    row[ 0 ] = "#%d %s" % ( rank , row[ 0 ].encode( 'ascii' , 'replace' ) )
+
+    name = row[ 0 ].encode( 'ascii' , 'replace' )
+    row[ 0 ] = "#%d %s" % ( rank ,  name )
     res = c.execute( common.athlete_best_races , (id,100) )
     for r in res:
       row.append( "%s(%d)<br>%.2f" % ( r[ 0 ] , r[ 2 ] ,  r[ 1 ] ) )
@@ -51,8 +54,10 @@ def sub_report( sex , range , limit , sexname ):
       print '<td bgcolor="%s">%s</td>' % ( color , r ) 
       col = col + 1 
     print "</tr>"
+    c.execute( "insert into sheets(name,sex,category,rank,points,results) values(?,?,?,?,?,?)" , (name,sex,category,rank,points,"") )
     rank += 1
   print "</table>"
+  conn.commit()
 
 age_ranges = [ None , (5,9) , (10,19) , (20,29) , (30,39) , (40,49) , (50,59) , (60,69) , (70,79) , (80,89) , (90,99) ]
 
