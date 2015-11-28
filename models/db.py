@@ -91,11 +91,14 @@ auth.settings.reset_password_requires_verification = True
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
 
+def ff(f,row):
+  return "%4.2f" % f 
+
 db.define_table( 'sheets' ,
     Field('name', type='string', label=T('name')),
     Field('ranking', type='integer', label=T('rank')),
     Field('sex',  type='string',  label=T('sex')),
-    Field('points' , type='float', label=T('points')),
+    Field('points' , type='float', label=T('points'), represent = ff ),
     Field('results', type='string', label=T('results')),
     Field('category' , type='string', label=T('category')),
     Field('age' , type='integer', label=T('age'))
