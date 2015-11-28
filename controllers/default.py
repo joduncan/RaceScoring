@@ -10,11 +10,7 @@
 
 def index():
     """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
-
-    if you need a simple wiki simply replace the two lines below with:
-    return auth.wiki()
+    The main grid for towerrunning usa's scoring system
     """
 
     categories = [ 'Open' , 
@@ -31,22 +27,23 @@ def index():
 
     
     f1 = Field('sex', requires=IS_IN_SET(('M','F'),zero=None))
+    f2 = Field('category', requires=IS_IN_SET(categories,zero=None))
+    
     form = SQLFORM.factory(f1,
-                           Field('category', requires=IS_IN_SET(categories,zero=None)) ,
+                           f2 ,
                            Field('name') )
     ds = db.sheets
-    fields = [
-        ds.ranking , ds.name , ds.age, ds.points, ds.results ]
+    fields = [ ds.ranking , ds.name , ds.age, ds.points, ds.results ]
 
     chosenSex = 'M'
-    chosenCategory = 'Open'
+    chosenCategory='Open'
     namesearch = None
-
-    if form.process().accepted:
+    
+    if form.process(keepvalues=True).accepted:
       chosenSex = form.vars.sex
       chosenCategory = form.vars.category 
       namesearch = form.vars.name
-      print namesearch
+     
 
     q = (db.sheets.sex==chosenSex) & (db.sheets.category == chosenCategory)
     if namesearch <> None:
@@ -55,7 +52,7 @@ def index():
     print q 
 
     grid = SQLFORM.grid( q , fields = fields , search_widget = None )
-    return dict(form=form,grid=grid)
+    return dict(options=form,results=grid)
 
 
 def user():
