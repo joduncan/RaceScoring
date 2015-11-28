@@ -94,12 +94,15 @@ auth.settings.reset_password_requires_verification = True
 def ff(f,row):
   return "%4.2f" % f 
 
+def rp(f,row):
+  return HTML(f)
+
 db.define_table( 'sheets' ,
     Field('name', type='string', label=T('name')),
     Field('ranking', type='integer', label=T('rank')),
     Field('sex',  type='string',  label=T('sex')),
     Field('points' , type='float', label=T('points'), represent = ff ),
-    Field('results', type='string', label=T('results')),
+    Field('results', type='string', label=T('results'),represent=rp),
     Field('category' , type='string', label=T('category')),
     Field('age' , type='integer', label=T('age'))
     #,migrate=False

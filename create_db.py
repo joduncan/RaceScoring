@@ -22,14 +22,14 @@ def saferun(cmd):
   try:
     c.execute(cmd)
   except:
-    print "failed to run:" , cms
+    print "failed to run:" , cmd
     
 saferun( "create table race    ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , date date , factor integer , url string )" )
 saferun( "create table athlete ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , sex string , age integer , points float )" )
 saferun( "create index athname on athlete(name)" ) # cut creation time from 50.8 to 30.8
 saferun( "create table results  ( id INTEGER PRIMARY KEY AUTOINCREMENT  , race integer , athlete integer , rank integer , points float )" )
 saferun( "create index resath on results(athlete)" ) #cut creation time from 30.8 to 1.26 (!!) 
-saferun( "create table sheets ( id INTEGER PRIMARY KEY AUTOINCREMENT, name string, sex string, age integer, category string, ranking integer, points float, results string ) " 
+saferun( "create table sheets ( id INTEGER PRIMARY KEY AUTOINCREMENT, name string, sex string, age integer, category string, ranking integer, points float, results string ) ") 
 
 
 c.execute( "delete from race where 1=1" )

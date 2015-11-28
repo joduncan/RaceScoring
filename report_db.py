@@ -42,8 +42,11 @@ def sub_report( sex , range , limit , sexname ):
     name = row[ 0 ].encode( 'ascii' , 'replace' )
     row[ 0 ] = "#%d %s" % ( rank ,  name )
     res = c.execute( common.athlete_best_races , (id,100) )
+    rt = ""
     for r in res:
-      row.append( "%s(%d)<br>%.2f" % ( r[ 0 ] , r[ 2 ] ,  r[ 1 ] ) )
+      txt = "%s(%d) %.2f<br>" % ( r[ 0 ] , r[ 2 ] ,  r[ 1 ] )
+      row.append( txt )
+      rt = rt + txt
     print "<tr>"
     col = 1
     for r in row:
@@ -55,7 +58,7 @@ def sub_report( sex , range , limit , sexname ):
       print '<td bgcolor="%s">%s</td>' % ( color , r ) 
       col = col + 1 
     print "</tr>"
-    c.execute( "insert into sheets(name,age,sex,category,ranking,points,results) values(?,?,?,?,?,?,?)" , (name,age,sex,category,rank,points,"") )
+    c.execute( "insert into sheets(name,age,sex,category,ranking,points,results) values(?,?,?,?,?,?,?)" , (name,age,sex,category,rank,points,rt) )
     rank += 1
   print "</table>"
   conn.commit()
