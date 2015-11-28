@@ -18,16 +18,19 @@ import datetime
 conn = sqlite3.connect(common.db)
 c = conn.cursor()
 
-try:
-  c.execute( "create table race    ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , date date , factor integer , url string )" )
-  c.execute( "create table athlete ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , sex string , age integer , points float )" )
-  c.execute( "create index athname on athlete(name)" ) # cut creation time from 50.8 to 30.8
-  c.execute( "create table results  ( id INTEGER PRIMARY KEY AUTOINCREMENT  , race integer , athlete integer , rank integer , points float )" )
-  c.execute( "create index resath on results(athlete)" ) #cut creation time from 30.8 to 1.26 (!!) 
+def saferun(cmd):
+  try:
+    c.execute(cmd)
+  except:
+    print "failed to run:" , cms
+    
+saferun( "create table race    ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , date date , factor integer , url string )" )
+saferun( "create table athlete ( id INTEGER PRIMARY KEY AUTOINCREMENT  , name string , sex string , age integer , points float )" )
+saferun( "create index athname on athlete(name)" ) # cut creation time from 50.8 to 30.8
+saferun( "create table results  ( id INTEGER PRIMARY KEY AUTOINCREMENT  , race integer , athlete integer , rank integer , points float )" )
+saferun( "create index resath on results(athlete)" ) #cut creation time from 30.8 to 1.26 (!!) 
+saferun( "create table sheets ( id INTEGER PRIMARY KEY AUTOINCREMENT, name string, sex string, age integer, category string, ranking integer, points float, results string ) " 
 
-  c.execute( "create table sheets ( id INTEGER PRIMARY KEY AUTOINCREMENT, name string, sex string, age integer, category string, ranking integer, points float, results string ) " )
-except:
-  pass
 
 c.execute( "delete from race where 1=1" )
 c.execute( "delete from athlete where 1=1" )
