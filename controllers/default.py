@@ -25,29 +25,30 @@ def index():
                    '80-89' , 
                    '90-99' ] 
 
+
+    if session.chosenSex==None:
+      chosenSex = 'M'
+    if session.chosenCategory==None:
+      session.chosenCategory = 'Open'
     
-    f1 = Field('sex', requires=IS_IN_SET(('M','F'),zero=None))
-    f2 = Field('category', requires=IS_IN_SET(categories,zero=None))
+    f1 = Field('sex', requires=IS_IN_SET(('M','F'),zero=None),default=session.chosenSex)
+    f2 = Field('category', requires=IS_IN_SET(categories,zero=None),default=session.chosenCategory)
     
     form = SQLFORM.factory(f1,
                            f2 ,
                            Field('name') )
     ds = db.sheets
     fields = [ ds.ranking , ds.name , ds.age, ds.points, ds.results ]
-
-    chosenSex = 'M'
-    chosenCategory='Open'
-    namesearch = None
     
     if form.process(keepvalues=True).accepted:
-      chosenSex = form.vars.sex
-      chosenCategory = form.vars.category 
-      namesearch = form.vars.name
+      session.chosenSex = form.vars.sex
+      session.chosenCategory = form.vars.category 
+      session.namesearch = form.vars.name
      
 
-    q = (db.sheets.sex==chosenSex) & (db.sheets.category == chosenCategory)
-    if namesearch <> None:
-      q = q & (db.sheets.name.like( '%' + namesearch + '%' ))
+    q = (db.sheets.sex==session.chosenSex) & (db.sheets.category == session.chosenCategory)
+    if session.namesearch <> None:
+      q = q & (db.sheets.name.like( '%' + session.namesearch + '%' ))
 
     print q 
 
