@@ -96,8 +96,10 @@ def ff(f,row):
 
 def rp(f,row):
   f = f.split("<br>")
-  f = [ TD(i) for i in f ]
-  return TABLE(TR(*f))
+  f = [ TD(i,width=150,bgcolor="ff2222") for (index,i) in enumerate(f) ]
+  t = TABLE(TR(*f),border=3)
+  print t
+  return t 
 
 db.define_table( 'sheets' ,
     Field('name', type='string', label=T('name')),
