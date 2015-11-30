@@ -95,7 +95,9 @@ def ff(f,row):
   return "%4.2f" % f 
 
 def rp(f,row):
-  return HTML(f)
+  f = f.split("<br>")
+  f = [ TD(i) for i in f ]
+  return TABLE(TR(*f))
 
 db.define_table( 'sheets' ,
     Field('name', type='string', label=T('name')),

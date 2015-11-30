@@ -27,7 +27,7 @@ def index():
 
 
     if session.chosenSex==None:
-      chosenSex = 'M'
+      chosenSex = 'F'
     if session.chosenCategory==None:
       session.chosenCategory = 'Open'
     
