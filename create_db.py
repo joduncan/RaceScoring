@@ -97,7 +97,9 @@ def main():
     with open( sheet ) as results_file:
       print >> sys.stderr , "processing" , sheet 
       def pop():
-        l = results_file.readline().strip().split(",")
+        l = results_file.readline()
+        l = l.split("#")[0]
+        l = l.strip().split(",")
         if len(l)==1:
           return l[0]
         else:
