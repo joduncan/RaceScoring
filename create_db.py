@@ -38,7 +38,20 @@ c.execute( "delete from results where 1=1" )
 c.execute( "delete from sheets where 1=1" )
 
 
+translations = open( 'translate.dat' , 'r' ).readlines()
+translations = [ t.strip().upper().split(',') for t in translations ]
+print translations 
+
+def translate( name ):
+  name = name.upper()
+  for t in translations:
+    if t[0]==name:
+      print t
+      return t[1]
+  return name
+
 def find_racer( name , age , gender ):
+  name = translate(name)
   try:
     age = int( age )
     c.execute( "select id , age from athlete where name=? and sex=? and ( ( age >= ? ) and ( age <= ? ) or age is null )" , 
