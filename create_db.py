@@ -111,6 +111,7 @@ def main():
       print >> sys.stderr , "processing" , sheet 
       def pop():
         l = results_file.readline()
+        #print(l)
         l = l.split("#")[0]
         l = l.strip().split(",")
         if len(l)==1:
