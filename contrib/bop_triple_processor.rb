@@ -11,14 +11,16 @@ require 'csv'
 #                                  MATTHEW SRADERS          M 20   04:26.4
 #                                  MATTHEW SRADERS          M 20   04:30.1
 
-# this should handle racers who only did 1 or 2 trips, but I have not verified
-# that.
+# this won't handle racers who didn't do 3 full climbs. it appears that
+# the timing company doesn't put a total on the first line for those competitors,
+# so I'm silently dropping them from the results.
 
-# this will not handle "RACEDAY ENTRY" lines from older years... yet.
+# this will not handle "RACEDAY ENTRY" lines from older years, either. you should
+# remove those before processing the results.
 
 racer_1st_line_fields = ['first_name', 'last_name', 'sex', 'age', 1, 'total']
 
-csv_order = ['place','sex', 'age', 'first_name', 'last_name', 1, 2, 3, 'total']
+csv_order = ['empty', 'full_name', 'age', 'sex', 1, 2, 3, 'total']
 
 racers = []
 current_racer = nil
@@ -32,7 +34,10 @@ ARGF.each_line do |line|
 	# start an entry if the line starts with their place.
 	if (/\d+/.match(fields[0]) && /TRIP:/.match(fields[1]))
 		puts "adding racer: #{fields[2]} #{fields[3]}"
-		racers << current_racer if current_racer != nil
+		if !current_racer.nil?
+			current_racer['full_name'] = "#{current_racer['first_name']} #{current_racer['last_name']}"
+			racers << current_racer
+		end
 		current_racer = {}
 		# this walks the current line backwards, and the racer key
 		# fields forwards
@@ -45,12 +50,6 @@ ARGF.each_line do |line|
 		# racer.
 		next_fastest_trip = 2
 		current_racer['place'] = fields.first.to_i
-#		current_racer['total'] = fields[-1]
-#		current_racer[1] = fields[-2]
-#		current_racer['age'] = fields[-3]
-#		current_racer['sex'] = fields[-4]
-#		current_racer['last'] = fields[-5]
-#		current_racer['first'] = fields[-6]
 	elsif (fields[0] == current_racer['first_name'] && fields[1] == current_racer['last_name'])
 	    puts "adding trip #{next_fastest_trip} for #{current_racer['first_name']} #{current_racer['last_name']}"
 		current_racer[next_fastest_trip] = fields.last
@@ -58,7 +57,7 @@ ARGF.each_line do |line|
 	end	
 end
 
-# racers.each { |racer| }
+# just in case places get wacky somewhere in the middle, save based on the incoming order of results.
 CSV.open('bop-triple.csv', 'wb', {:write_headers => true, :headers => csv_order}) do |fh|
-	racers.sort { |a,b| a['place'] <=> b['place'] }.each { |racer| fh << racer }
+	racers.each { |racer| fh << racer }
 end
